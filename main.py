@@ -2,8 +2,9 @@
 
 def main():
     directory = "data"
-    sequences = load_all_fastas(directory)
-    print(sequences)
+    mamalian_sequences, bacterial_sequences = load_all_fastas(directory)
+    print(mamalian_sequences)
+    print(bacterial_sequences)
 
 if __name__ == '__main__':
     main()
