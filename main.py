@@ -8,16 +8,23 @@ def process_sequences(sequences):
     protein_sequences = []
 
     for record_id, sequence in sequences.items():
-        regions_forward = find_coding_regions(sequence)
-        regions_reverse = find_coding_regions(reverse_complement(sequence))
+        protein_sequences.extend(process_sequence(sequence))
 
-        all_regions = regions_forward + regions_reverse
-        filtered_regions = filter_short_regions(all_regions)
+        reverse_sequence = reverse_complement(sequence)
+        protein_sequences.extend(process_sequence(reverse_sequence))
 
-        for start, stop in filtered_regions:
-            dna_fragment = sequence[start:stop]
-            protein_seq = translate_sequence(dna_fragment, codontab)
-            protein_sequences.append(protein_seq)
+    return protein_sequences
+
+
+def process_sequence(sequence):
+    regions = find_coding_regions(sequence)
+    filtered_regions = filter_short_regions(regions)
+    protein_sequences = []
+
+    for start, stop in filtered_regions:
+        dna_fragment = sequence[start:stop]
+        protein_seq = translate_sequence(dna_fragment, codontab)
+        protein_sequences.append(protein_seq)
 
     return protein_sequences
 
