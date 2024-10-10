@@ -1,38 +1,35 @@
-﻿# def find_coding_regions(sequence):
-#     start_codon = "ATG"
-#     stop_codons = ["TAA", "TAG", "TGA"]
-#     regions = []
-#
-#     for i in range(len(sequence) - 2):
-#         if sequence[i:i+3] == start_codon:
-#             for j in range(i + 3, len(sequence) - 2, 3):
-#                 codon = sequence[j:j+3]
-#                 if codon in stop_codons:
-#                     regions.append((i, j + 3))
-#                     break
-#     return regions
-
-def find_coding_regions(sequence):
+﻿def find_coding_regions(sequence):
     start_codon = "ATG"
-    stop_codons = ["TAA", "TAG", "TGA"]
-    regions = []
+    stop_codons = {"TAA", "TAG", "TGA"}
+
+    valid_pairs = []
 
     start_positions = []
 
-    for i in range(len(sequence) - 2):
+    for i in range(0, len(sequence) - 2, 3):
         codon = sequence[i:i + 3]
 
         if codon == start_codon:
             start_positions.append(i)
 
         elif codon in stop_codons:
-            if start_positions:
-                furthest_start = start_positions[-1]
-                regions.append((furthest_start, i + 3))
+            furthest_valid_start = None
 
-            start_positions.clear()
+            for start in reversed(start_positions):
+                has_stop_in_between = any(
+                    sequence[j:j + 3] in stop_codons for j in range(start + 3, i, 3)
+                )
 
-    return regions
+                if not has_stop_in_between:
+                    furthest_valid_start = start
+                    break
+
+            if furthest_valid_start is not None:
+                valid_pairs.append((furthest_valid_start, i + 3))
+
+            start_positions = [s for s in start_positions if s > i]
+
+    return valid_pairs
 
 def reverse_complement(sequence):
     complement = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
