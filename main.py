@@ -1,5 +1,4 @@
-﻿# main.py
-from src.load_data import load_all_viruses
+﻿from src.load_data import load_all_viruses
 from src.find_regions import find_coding_regions, reverse_complement, filter_short_regions
 from src.translate import translate_sequence
 from src.codon_table import codontab
@@ -42,14 +41,21 @@ def main():
     mammalian_codon_freq, mammalian_dicodon_freq = analyze_frequencies(mammalian_protein_sequences)
     bacterial_codon_freq, bacterial_dicodon_freq = analyze_frequencies(bacterial_protein_sequences)
 
-    all_frequencies = {**mammalian_codon_freq, **bacterial_codon_freq}
+    codon_frequencies = {**mammalian_codon_freq, **bacterial_codon_freq}
+    codon_dist_matrix, codon_ids, codon_keys = create_distance_matrix(codon_frequencies)
 
-    dist_matrix, ids, keys = create_distance_matrix(all_frequencies)
+    dicodon_frequencies = {**mammalian_dicodon_freq, **bacterial_dicodon_freq}
+    dicodon_dist_matrix, dicodon_ids, dicodon_keys = create_distance_matrix(dicodon_frequencies)
 
-    print("\nDistance Matrix:")
-    print("  " + " ".join(ids))
-    for i, row in enumerate(dist_matrix):
-        print(f"{ids[i]} " + " ".join(f"{d:.3f}" for d in row))
+    print("\nCodon Distance Matrix:")
+    print(len(codon_ids))
+    for i, row in enumerate(codon_dist_matrix):
+        print(f"{codon_ids[i]} " + " ".join(f"{d:.3f}" for d in row))
+
+    print("\nDicodon Distance Matrix:")
+    print(len(dicodon_ids))
+    for i, row in enumerate(dicodon_dist_matrix):
+        print(f"{dicodon_ids[i]} " + " ".join(f"{d:.3f}" for d in row))
 
 if __name__ == '__main__':
     main()
