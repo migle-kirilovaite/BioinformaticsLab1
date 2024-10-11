@@ -40,11 +40,9 @@ def main():
     print("Processing Bacterial Sequences...")
     bacterial_protein_sequences = process_sequences(bacterial_sequences)
 
-    # Analyze codon and dicodon frequencies for individual protein sequences
     mammalian_codon_freq, mammalian_dicodon_freq = analyze_frequencies(mammalian_protein_sequences)
     bacterial_codon_freq, bacterial_dicodon_freq = analyze_frequencies(bacterial_protein_sequences)
 
-    # Output for verification
     print("\nMammalian Codon Frequencies (by sequence):")
     print(mammalian_codon_freq)
 
