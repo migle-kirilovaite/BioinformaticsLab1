@@ -31,9 +31,11 @@
 
     return valid_pairs
 
+
 def reverse_complement(sequence):
     complement = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
     return ''.join([complement[base] for base in reversed(sequence)])
+
 
 def filter_short_regions(regions, min_length=100):
     return [(start, stop) for start, stop in regions if stop - start >= min_length]
