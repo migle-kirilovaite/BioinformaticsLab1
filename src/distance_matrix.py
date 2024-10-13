@@ -2,8 +2,8 @@
 import numpy as np
 
 
-def calculate_euclidean_distance(vec1, vec2):
-    return distance.euclidean(vec1, vec2)
+def calculate_distance(vec1, vec2):
+    return distance.cosine(vec1, vec2)
 
 
 def create_distance_matrix(frequencies):
@@ -18,7 +18,7 @@ def create_distance_matrix(frequencies):
     dist_matrix = np.zeros((len(frequencies), len(frequencies)))
     for i in range(len(frequencies)):
         for j in range(i, len(frequencies)):
-            dist = calculate_euclidean_distance(freq_matrix[i], freq_matrix[j])
+            dist = calculate_distance(freq_matrix[i], freq_matrix[j])
             dist_matrix[i][j] = dist
             dist_matrix[j][i] = dist
 
